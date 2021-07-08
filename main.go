@@ -3,8 +3,17 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net"
+	"strings"
 )
+
+type message struct {
+	user string
+	body string
+}
+
+var cs = [](chan message){}
 
 func main() {
 	ln, err := net.Listen("tcp", ":4455")
@@ -27,9 +36,45 @@ func handleConnection(conn net.Conn) {
 
 	r := bufio.NewReader(conn)
 
-	name, err := r.ReadString('\n')
+	user, err := r.ReadString('\n')
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(conn, "Hello, %s\n", name)
+	user = chomp(user)
+	fmt.Fprintf(conn, "Hello, %s\n", user)
+
+	c := make(chan message)
+	cs = append(cs, c)
+
+	go func() {
+		for {
+			body, err := r.ReadString('\n')
+			if err != nil {
+				panic(err)
+			}
+			body = chomp(body)
+			log.Printf("received: %s\n", body)
+			broadcast(user, body)
+		}
+	}()
+
+	for {
+		m := <-c
+		fmt.Fprintf(conn, "%s> %s\n", m.user, m.body)
+	}
+}
+
+func broadcast(user string, body string) {
+	m := message{
+		user: user,
+		body: body,
+	}
+
+	for _, c := range cs {
+		c <- m
+	}
+}
+
+func chomp(s string) string {
+	return strings.TrimRight(strings.TrimRight(s, "\n"), "\r")
 }
