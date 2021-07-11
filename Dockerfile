@@ -4,6 +4,8 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY . .
+
+RUN make install-tools
 RUN go build
 
-CMD ["./pikuchat"]
+CMD ["air"]
