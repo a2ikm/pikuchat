@@ -1,7 +1,9 @@
 version: "3.9"
 services:
   pikuchat:
-    build: .
+    build:
+      context: .
+      target: builder
     ports:
       - 4455:4455
     volumes:
