@@ -52,6 +52,9 @@ func handleConnection(conn net.Conn) {
 				panic(err)
 			}
 			body = chomp(body)
+			if len(body) == 0 {
+				continue
+			}
 			broadcast(user, body)
 		}
 	}()
