@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"strings"
 )
 
@@ -16,9 +17,10 @@ type message struct {
 var cs = [](chan message){}
 
 func main() {
-	log.Println("Listening 0.0.0.0:4455")
+	addr := fmt.Sprintf("0.0.0.0:%s", os.Getenv("PORT"))
+	log.Printf("Listening %s\n", addr)
 
-	ln, err := net.Listen("tcp", "0.0.0.0:4455")
+	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		panic(err)
 	}

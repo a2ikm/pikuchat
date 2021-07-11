@@ -10,6 +10,8 @@ services:
       - .:/app
       - tmp:/app/tmp
       - gopath:/go
+    environment:
+      PORT: 4455
 volumes:
   tmp:
   gopath:
