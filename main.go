@@ -31,7 +31,7 @@ func main() {
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	fmt.Fprintf(conn, "What's your name?\n> ")
+	fmt.Fprintf(conn, "bot> What's your name?: ")
 
 	r := bufio.NewReader(conn)
 
@@ -40,7 +40,7 @@ func handleConnection(conn net.Conn) {
 		panic(err)
 	}
 	user = strings.TrimSpace(user)
-	fmt.Fprintf(conn, "Hello, %s\n", user)
+	fmt.Fprintf(conn, "bot> Hello, %s!\n", user)
 
 	c := make(chan message)
 	cs = append(cs, c)
