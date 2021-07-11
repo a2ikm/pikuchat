@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN make install-tools
-RUN go build
+RUN make all
 
 CMD ["air"]

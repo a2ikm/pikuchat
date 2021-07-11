@@ -3,7 +3,7 @@ tmp_dir = "tmp"
 
 [build]
   bin = "./pikuchat"
-  cmd = "go build  ."
+  cmd = "make build"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor"]
   exclude_file = []
