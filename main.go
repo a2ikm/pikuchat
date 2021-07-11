@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net"
 	"strings"
 )
@@ -15,7 +16,9 @@ type message struct {
 var cs = [](chan message){}
 
 func main() {
-	ln, err := net.Listen("tcp", ":4455")
+	log.Println("Listening 0.0.0.0:4455")
+
+	ln, err := net.Listen("tcp", "0.0.0.0:4455")
 	if err != nil {
 		panic(err)
 	}
