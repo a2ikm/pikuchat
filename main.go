@@ -39,7 +39,7 @@ func handleConnection(conn net.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	user = chomp(user)
+	user = strings.TrimSpace(user)
 	fmt.Fprintf(conn, "Hello, %s\n", user)
 
 	c := make(chan message)
@@ -51,7 +51,7 @@ func handleConnection(conn net.Conn) {
 			if err != nil {
 				panic(err)
 			}
-			body = chomp(body)
+			body = strings.TrimSpace(body)
 			if len(body) == 0 {
 				continue
 			}
@@ -74,8 +74,4 @@ func broadcast(user string, body string) {
 	for _, c := range cs {
 		c <- m
 	}
-}
-
-func chomp(s string) string {
-	return strings.TrimRight(strings.TrimRight(s, "\n"), "\r")
 }
