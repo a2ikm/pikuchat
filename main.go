@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"net"
 	"strings"
 )
@@ -53,7 +52,6 @@ func handleConnection(conn net.Conn) {
 				panic(err)
 			}
 			body = chomp(body)
-			log.Printf("received: %s\n", body)
 			broadcast(user, body)
 		}
 	}()
